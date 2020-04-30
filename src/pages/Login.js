@@ -75,36 +75,38 @@ const Divider = styled.div`
     margin: 16px;
 `
 
-const handleSubmit = async (e) => {
-    const credentials = {
-        email: e.target[0].value,
-        password: e.target[1].value
-    }
-
-    e.preventDefault();
-    let logged = await LoginWithCredentials(credentials);
-    console.log(logged);
-    return logged;
-}
-
-const LoginWithCredentials = async (credentials) => {
-    firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
-    .then((res) => {
-        window.sessionStorage.setItem('logged', true)
-        window.sessionStorage.setItem('credentials', credentials)
-        window.location = "/home";
-    })
-    .catch(err => {
-        console.error(err.code);
-        console.error(err.message);
-    })
-}
-
 const Index = () => {
     const [logged, setLogged] = useState(false);
 
     if(firebase.apps.length <= 0){
         firebase.initializeApp(firebaseConfig);
+    }
+
+    const handleSubmit = async (e) => {
+        const credentials = {
+            email: e.target[0].value,
+            password: e.target[1].value
+        }
+    
+        e.preventDefault();
+        await LoginWithCredentials(credentials);
+    }
+
+    const LoginWithCredentials = async (credentials) => {
+        firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
+        .then((res) => {
+            let user = firebase.auth().currentUser;
+            window.sessionStorage.setItem('uid', user.uid)
+            setLogged(true);
+        })
+        .catch(err => {
+            console.error(err.code);
+            console.error(err.message);
+        })
+    }
+
+    if(logged){
+        return(<Redirect to="/home" push />)
     }
 
     return(
