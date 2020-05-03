@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import styled, {keyframes} from 'styled-components'
 import * as firebase from 'firebase';
 import 'firebase/auth';
-import firebaseConfig from '../config/firebase';
+import firebaseConfig from '../../config/firebase';
 import {Redirect} from 'react-router-dom';
+import {CircularProgress} from '@material-ui/core'
 
 const Container = styled.div`
     width: 100vw;
@@ -32,6 +33,13 @@ const LoginContainer = styled.div`
     box-shadow: 0px 4px 8px #0000001f;
     border-radius: 10px;
     animation: ${fadeIn} 0.5s;
+
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 `
 
 const LoginForm = styled.div`
@@ -75,8 +83,13 @@ const Divider = styled.div`
     margin: 16px;
 `
 
+const LoggingProgress = styled(CircularProgress)`
+    margin: 16px;
+`
+
 const Index = () => {
     const [logged, setLogged] = useState(false);
+    const [logging, setLogging] = useState(false);
 
     if(firebase.apps.length <= 0){
         firebase.initializeApp(firebaseConfig);
@@ -93,15 +106,18 @@ const Index = () => {
     }
 
     const LoginWithCredentials = async (credentials) => {
+        setLogging(true);
         firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
         .then((res) => {
             let user = firebase.auth().currentUser;
             window.sessionStorage.setItem('uid', user.uid)
             setLogged(true);
+            setLogging(false);
         })
         .catch(err => {
             console.error(err.code);
             console.error(err.message);
+            setLogging(false);
         })
     }
 
@@ -127,7 +143,10 @@ const Index = () => {
                             className="textInput"
                         />
                     </LoginForm>
-                    <Submit type="submit" value="Login" />
+                    {logging ? 
+                        <LoggingProgress size={24} /> : 
+                        <Submit type="submit" value="Login" />
+                    }
                 </form>
                 <Divider />
                 <Submit 
