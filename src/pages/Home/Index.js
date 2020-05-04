@@ -7,25 +7,18 @@ import firebaseConfig from '../../config/firebase';
 
 import styled from 'styled-components';
 
-import CardsHeader from './CardsHeader';
+import CategoriesHeader from './CategoriesHeader';
 import RecipesColumn from './RecipesColumn';
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #d5e6e4;
     display: flex;
-    flex-direction: column;
-`
-
-const Content = styled.section`
-    flex-grow: 1;
-    margin-left: 32px;
-    margin-right: 32px;
-    margin-bottom: 16px;
-    border-radius: 0px 10px 10px 10px;
-    display: flex;
     flex-direction: row;
+
+    @media (max-width: 1550px){
+        flex-direction: column;
+    }
 `
 
 const Home = () => {
@@ -33,35 +26,38 @@ const Home = () => {
         firebase.initializeApp(firebaseConfig);
     }
 
-    const [user, setUser] = useState(firebase.auth().currentUser);
+    const [userId, setUserId] = useState("");
     const [recipes, setRecipes] = useState([]);
 
     const db = firebase.firestore();
 
     useEffect(() => {
-        db.collection("recipes").where("owner", "==", user.uid).onSnapshot(snap => {
-            console.log(user.uid);
-            let _recipes = [];
+        const GetUserId = async () => {
+            let _userId = await window.sessionStorage.getItem("uid");
 
-            snap.forEach(doc => {
-                _recipes.push(doc.data());
+            setUserId(_userId);
+        }
+
+        if(userId <= 0)
+            GetUserId();
+
+        if(userId.length > 0){
+            db.collection("recipes").where("owner", "==", userId).onSnapshot(snap => {
+                let _recipes = [];
+    
+                snap.forEach(doc => {
+                    _recipes.push(doc.data());
+                })
+                setRecipes(__recipes => _recipes);
             })
-            setRecipes(__recipes => _recipes);
-        })
-    }, [])
-
-    useEffect(() => {
-        console.log(recipes);
-    }, [recipes])
+        }
+    }, [userId])
 
     return(
         <Container>
-            <CardsHeader />
-            <Content>
-                <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 0))} />
-                <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 1))} />
-                <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 2))} />
-            </Content>
+            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 0))} bgColor="#e06324" categoryName="Breakfast" />
+            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 1))} bgColor="#24a4e0" categoryName="Dinner" />
+            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 2))} bgColor="#e02485" categoryName="Supper" />
         </Container>
     )
 }

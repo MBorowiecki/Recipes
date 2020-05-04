@@ -7,7 +7,7 @@ const Container = styled.section`
     margin: 32px;
 `
 
-const Card = styled.div`
+const Category = styled.div`
     flex: 1;
     margin-left: 16px;
     margin-right: 16px;
@@ -25,21 +25,21 @@ const Card = styled.div`
 const CardsHeader = (props) => {
     return(
         <Container>
-            <Card 
+            <Category 
                 bgColor="#e06324"
             >
                 Breakfast
-            </Card>
-            <Card 
+            </Category>
+            <Category 
                 bgColor="#24a4e0"
             >
                 Dinner
-            </Card>
-            <Card 
+            </Category>
+            <Category 
                 bgColor="#e02485"
             >
                 Supper
-            </Card>
+            </Category>
         </Container>
     )
 } 
