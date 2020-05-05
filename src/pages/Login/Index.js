@@ -13,6 +13,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 `
 
 const fadeIn = keyframes`
@@ -27,12 +28,27 @@ const fadeIn = keyframes`
     }
 `
 
+const fadeOut = keyframes`
+    from{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    to{
+        opacity: 0;
+        transform: translateY(10%);
+    }
+`
+
 const LoginContainer = styled.div`
     background-color: #ffffff;
     padding: 24px;
     box-shadow: 0px 4px 8px #0000001f;
     border-radius: 10px;
-    animation: ${fadeIn} 0.5s;
+    transform: 
+        scale(${props => props.active ? "1" : "0"}) 
+        translateY(${props => props.active ? "0%" : "-10%"});
+    transition: transform 0.25s;
 
     form{
         display: flex;
@@ -67,10 +83,11 @@ const Submit = styled.input`
     border-radius: 10px;
     border: none;
     font-size: 20px;
-    color: #ffffff;
+    color: ${props => props.color || "#ffffff"};
     background-color: ${props => props.bgColor || "#5D5BB5"};
     opacity: ${props => props.disabled ? "0.6" : "1"};
     padding: 16px;
+    margin-top: ${props => props.marginTop || "0px"};
 
     :hover{
         cursor: ${props => props.disabled ? "default" : "pointer"};
@@ -87,9 +104,19 @@ const LoggingProgress = styled(CircularProgress)`
     margin: 16px;
 `
 
+const RegisterContainer = styled(LoginContainer)`
+    position: absolute;
+`
+
+const RegisterForm = styled(LoginForm)`
+    
+`
+
 const Index = () => {
     const [logged, setLogged] = useState(false);
     const [logging, setLogging] = useState(false);
+    const [loginActive, setLoginActive] = useState(true);
+    const [registering, setRegistering] = useState(false);
 
     if(firebase.apps.length <= 0){
         firebase.initializeApp(firebaseConfig);
@@ -105,10 +132,35 @@ const Index = () => {
         await LoginWithCredentials(credentials);
     }
 
+    const handleRegister = async (e) => {
+        const credentials = {
+            email: e.target[0].value,
+            password: e.target[1].value
+        }
+
+        e.preventDefault();
+        await RegisterWithCredentials(credentials);
+    }
+
+    const RegisterWithCredentials = async (credentials) => {
+        setRegistering(true);
+        firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
+        .then(() => {
+            let user = firebase.auth().currentUser;
+            window.sessionStorage.setItem('uid', user.uid);
+            setLogged(true);
+            setRegistering(false);
+        })
+        .catch(err => {
+            setRegistering(false);
+            console.log(err)
+        })
+    }
+
     const LoginWithCredentials = async (credentials) => {
         setLogging(true);
         firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
-        .then((res) => {
+        .then(() => {
             let user = firebase.auth().currentUser;
             window.sessionStorage.setItem('uid', user.uid)
             setLogged(true);
@@ -127,7 +179,7 @@ const Index = () => {
 
     return(
         <Container>
-            <LoginContainer>
+            <LoginContainer active={loginActive}>
                 <form onSubmit={handleSubmit}>
                     <LoginForm>
                         <span className="label">E-mail</span>
@@ -147,6 +199,16 @@ const Index = () => {
                         <LoggingProgress size={24} /> : 
                         <Submit type="submit" value="Login" />
                     }
+                    <Submit 
+                        type="button" 
+                        value="Create new account" 
+                        marginTop="16px"
+                        color="#5D5BB5"
+                        bgColor="#ffffff"
+                        onClick={() => {
+                            setLoginActive(false);
+                        }}
+                    />
                 </form>
                 <Divider />
                 <Submit 
@@ -156,6 +218,28 @@ const Index = () => {
                     disabled
                 />
             </LoginContainer>
+            <RegisterContainer active={!loginActive}>
+                <form onSubmit={handleRegister}>
+                    <RegisterForm>
+                        <span className="label">E-mail</span>
+                        <input 
+                            type="email" 
+                            className="textInput"
+                        />
+                    </RegisterForm>
+                    <RegisterForm>
+                        <span className="label">Password</span>
+                        <input
+                            type="password"
+                            className="textInput"
+                        />
+                    </RegisterForm>
+                    {registering ? 
+                        <LoggingProgress size={24} /> : 
+                        <Submit type="submit" value="Register" />
+                    }
+                </form>
+            </RegisterContainer>
         </Container>
     )
 }

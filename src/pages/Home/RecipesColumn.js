@@ -61,11 +61,16 @@ const Recipe = styled.div`
     box-shadow: 4px 0px 10px #00000033;
     user-select: none;
     transition: box-shadow 150ms, background-color 150ms;
+    overflow: hidden;
 
     :hover{
         cursor: pointer;
         box-shadow: 4px 0px 20px #0000003f;
         background-color: #fafafa;
+
+        img{
+            transform: scale(1.05);
+        }
     }
 
     img{
@@ -73,6 +78,7 @@ const Recipe = styled.div`
         width: 100%;
         object-fit: cover;
         border-radius: 10px 10px 0px 0px;
+        transition: transform 150ms;
     }
 
     .dataContainer{
@@ -108,24 +114,6 @@ const Recipe = styled.div`
     }
 `
 
-const AddRecipe = styled(Recipe)`
-    display: flex;
-    flex-direction: column;
-    height: 265px;
-    justify-content: center;
-    align-items: center;
-
-    .icon{
-        font-size: 32px;
-        color: #444444;
-    }
-
-    .text{
-        color: #333333;
-        font-size: 24px;
-    }
-`
-
 const RecipesColumn = ({recipes, bgColor, categoryName}) => {
     return(
         <Container>
@@ -138,7 +126,6 @@ const RecipesColumn = ({recipes, bgColor, categoryName}) => {
                         <RecipeComponent recipe={recipe} />
                     )
                 })}
-                <AddRecipeComponent />
             </GridContainer>
         </Container>
     )
@@ -156,17 +143,6 @@ const RecipeComponent = ({recipe}) => {
                 <span className="price">{recipe.totalPrice} $</span>
             </div>
         </Recipe>
-    )
-}
-
-const AddRecipeComponent = () => {
-    return(
-        <AddRecipe>
-            <Add className="icon" />
-            <span className="text">
-                Create new recipe
-            </span>
-        </AddRecipe>
     )
 }
 

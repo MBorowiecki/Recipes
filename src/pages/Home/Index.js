@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import CategoriesHeader from './CategoriesHeader';
 import RecipesColumn from './RecipesColumn';
+import NewRecipe from './NewRecipe';
 
 const Container = styled.div`
     min-height: 100vh;
@@ -28,12 +29,13 @@ const Home = () => {
 
     const [userId, setUserId] = useState("");
     const [recipes, setRecipes] = useState([]);
+    const [newRecipe, setNewRecipe] = useState({});
 
     const db = firebase.firestore();
 
     useEffect(() => {
-        const GetUserId = async () => {
-            let _userId = await window.sessionStorage.getItem("uid");
+        const GetUserId = () => {
+            let _userId = window.sessionStorage.getItem("uid");
 
             setUserId(_userId);
         }
@@ -55,9 +57,22 @@ const Home = () => {
 
     return(
         <Container>
-            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 0))} bgColor="#e06324" categoryName="Breakfast" />
-            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 1))} bgColor="#24a4e0" categoryName="Dinner" />
-            <RecipesColumn recipes={recipes.filter(recipe => (recipe.category === 2))} bgColor="#e02485" categoryName="Supper" />
+            <RecipesColumn 
+                recipes={recipes.filter(recipe => (recipe.category === 0))} 
+                bgColor="#e06324" 
+                categoryName="Breakfast"
+            />
+            <RecipesColumn 
+                recipes={recipes.filter(recipe => (recipe.category === 1))} 
+                bgColor="#24a4e0" 
+                categoryName="Dinner"
+            />
+            <RecipesColumn 
+                recipes={recipes.filter(recipe => (recipe.category === 2))} 
+                bgColor="#e02485" 
+                categoryName="Supper"
+            />
+            <NewRecipe />
         </Container>
     )
 }
