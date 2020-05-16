@@ -5,6 +5,9 @@ import 'firebase/auth';
 import firebaseConfig from '../../config/firebase';
 import {Redirect} from 'react-router-dom';
 import {CircularProgress} from '@material-ui/core'
+import {
+    KeyboardBackspace
+} from '@material-ui/icons'
 
 const Container = styled.div`
     width: 100vw;
@@ -14,6 +17,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
+    font-family: 'Muli', sans-serif;
 `
 
 const fadeIn = keyframes`
@@ -110,6 +114,34 @@ const RegisterContainer = styled(LoginContainer)`
 
 const RegisterForm = styled(LoginForm)`
     
+`
+
+const GoBackButton = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 16px;
+    user-select: none;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #00000000;
+    transition: background-color 0.15s;
+
+    :hover{
+        cursor: pointer;
+        background-color: #00000015;
+    }
+
+    .icon{
+        color: #000000;
+        font-size: 24px;
+        margin-right: 8px;
+    }
+
+    .text{
+        color: #000000;
+        font-size: 18px;
+    }
 `
 
 const Index = () => {
@@ -219,6 +251,12 @@ const Index = () => {
                 />
             </LoginContainer>
             <RegisterContainer active={!loginActive}>
+                <GoBackButton
+                    onClick={() => setLoginActive(true)}
+                >
+                    <KeyboardBackspace className="icon" />
+                    <span className="text">Go back</span>
+                </GoBackButton>
                 <form onSubmit={handleRegister}>
                     <RegisterForm>
                         <span className="label">E-mail</span>

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-    Add
-} from '@material-ui/icons';
+    Link
+} from 'react-router-dom';
 
 const Container = styled.section`
     flex: 1;
@@ -13,7 +13,7 @@ const GridContainer = styled.div`
     margin-bottom: 16px;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: fit-content(100%);
+    grid-template-rows: repeat(auto-fill, 280px);
     row-gap: 16px;
 
     @media (max-width: 1550px){
@@ -92,7 +92,7 @@ const Recipe = styled.div`
             flex-grow: 1;
 
             .title{
-                font-size: 24px;
+                font-size: 20px;
                 color: #000000;
                 font-weight: 400;
                 margin-left: 8px;
@@ -107,7 +107,7 @@ const Recipe = styled.div`
         }
 
         .price{
-            font-size: 32px;
+            font-size: 30px;
             color: #20a70a;
             margin-right: 8px;
         }
@@ -123,7 +123,9 @@ const RecipesColumn = ({recipes, bgColor, categoryName}) => {
             <GridContainer>
                 {recipes.map(recipe => {
                     return(
-                        <RecipeComponent recipe={recipe} />
+                        <Link to={`/recipe/${recipe.id}`} style={{textDecoration: 'none'}}>
+                            <RecipeComponent recipe={recipe} />
+                        </Link>
                     )
                 })}
             </GridContainer>

@@ -16,6 +16,7 @@ const Container = styled.div`
     background-color: #d5e6e4;
     display: flex;
     flex-direction: row;
+    font-family: 'Muli', sans-serif;
 
     @media (max-width: 1550px){
         flex-direction: column;
@@ -48,7 +49,9 @@ const Home = () => {
                 let _recipes = [];
     
                 snap.forEach(doc => {
-                    _recipes.push(doc.data());
+                    let _recipe = doc.data();
+                    _recipe.id = doc.id;
+                    _recipes.push(_recipe);
                 })
                 setRecipes(__recipes => _recipes);
             })
@@ -72,7 +75,7 @@ const Home = () => {
                 bgColor="#e02485" 
                 categoryName="Supper"
             />
-            <NewRecipe />
+            <NewRecipe userId={userId} />
         </Container>
     )
 }
