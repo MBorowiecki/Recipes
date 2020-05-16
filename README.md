@@ -1,4 +1,4 @@
-# My Food
+# Recipes
 Recipes is React.js web app, built with expo, which gives you space to save your favourite recipes.
 
 ## Getting Started
@@ -7,25 +7,24 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 ```
-git clone https://github.com/MBorowiecki/my-food.git
-npm install expo-cli -g
+git clone https://github.com/MBorowiecki/recipes.git
 ```
 ### Installing
 
 ```
-cd my-food
+cd recipes
 npm install
 ```
 
 ### Running the tests
 
 ```
-expo start
+npm start
 ```
 
 ### Built With
 
-React Native - JavaScript framework
+React - JavaScript framework
 
 ### Author
 Mateusz Borowiecki
