@@ -4,8 +4,14 @@ import {
     Link
 } from 'react-router-dom';
 
+import {
+    lightGrayBackground
+} from '../../config/colorTheme';
+
 const Container = styled.section`
     flex: 1;
+    margin-left: 16px;
+    margin-right: 16px;
 `
 
 const GridContainer = styled.div`
@@ -13,7 +19,7 @@ const GridContainer = styled.div`
     margin-bottom: 16px;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(auto-fill, 280px);
+    grid-auto-rows: fit-content(1em);
     row-gap: 16px;
 
     @media (max-width: 1550px){
@@ -39,34 +45,27 @@ const GridContainer = styled.div`
 
 const Category = styled.div`
     flex: 1;
-    margin: 16px;
-    background-color: ${props => props.bgColor};
-    border-radius: 100px;
-    padding: 16px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-size: 24px;
+    margin: 32px 16px 16px 16px;
+    background-color: transparent;
+    font-size: 40px;
     transition-duration: 150ms;
-    color: #ffffff;
-    text-align: center;
+    color: #000000;
+    font-weight: 300;
+    text-align: left;
 `
 
 const Recipe = styled.div`
     height: fit-content;
     margin-left: 16px;
     margin-right: 16px;
-    padding-bottom: 8px;
+    padding-bottom: 16px;
     border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 4px 0px 10px #00000033;
+    background-color: ${lightGrayBackground};
     user-select: none;
-    transition: box-shadow 150ms, background-color 150ms;
     overflow: hidden;
 
     :hover{
         cursor: pointer;
-        box-shadow: 4px 0px 20px #0000003f;
-        background-color: #fafafa;
 
         img{
             transform: scale(1.05);
@@ -82,6 +81,7 @@ const Recipe = styled.div`
     }
 
     .dataContainer{
+        margin-top: 16px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -95,21 +95,23 @@ const Recipe = styled.div`
                 font-size: 20px;
                 color: #000000;
                 font-weight: 400;
-                margin-left: 8px;
+                margin-left: 16px;
             }
 
             .calories{
                 font-size: 20px;
                 color: #666;
                 font-weight: 300;
-                margin-left: 8px;
+                margin-left: 16px;
             }
         }
 
         .price{
             font-size: 30px;
             color: #20a70a;
-            margin-right: 8px;
+            margin-right: 16px;
+            margin-left: 16px;
+            white-space: nowrap;
         }
     }
 `

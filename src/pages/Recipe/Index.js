@@ -11,10 +11,14 @@ import {
     ArrowBack
 } from '@material-ui/icons'
 
+import {
+    lightGrayBackground
+} from '../../config/colorTheme';
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #d5e6e4;
+    background-color: #ffffff;
     min-height: 100vh;
     font-family: 'Muli', sans-serif;
 `
@@ -34,7 +38,6 @@ const FirstContainer = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    box-shadow: 4px 0px 15px #00000033;
     max-width: 33vw;
     max-height: 100vh;
 `
@@ -47,12 +50,14 @@ const Image = styled.img`
     flex: 1;
     object-fit: cover;
     max-height: 40%;
+    margin: 16px;
+    border-radius: 10px;
 `
 
 const MetaInfo = styled.div`
     display: flex;
     flex-direction: row;
-    background-color: #dadada;
+    background-color: ${lightGrayBackground};
     margin: 16px;
     padding: 8px;
     border-radius: 10px;
@@ -88,7 +93,7 @@ const MetaInfo = styled.div`
     }
 `
 
-const DescriptionIngredients = styled.div`
+const StepsIngredients = styled.div`
     flex: 1;
     display: flex;
     flex-direction: row;
@@ -98,8 +103,10 @@ const DescriptionIngredients = styled.div`
         flex: 1;
         display: flex;
         flex-direction: column;
-        border-right: 1px solid #888888;
-        padding: 8px 16px 8px 8px;
+        padding: 16px;
+        margin-right: 16px;
+        border-radius: 10px;
+        background-color: ${lightGrayBackground};
 
         .label{
             font-size: 24px;
@@ -116,16 +123,18 @@ const DescriptionIngredients = styled.div`
             ul{
                 margin: 0px;
                 padding-left: 20px;
-                overflow-y: scroll;
             }
         }
     }
 
     .right{
         flex: 1;
-        margin: 8px 8px 8px 16px;
+        padding: 16px;
+        margin-left: 16px;
         display: flex;
         flex-direction: column;
+        background-color: ${lightGrayBackground};
+        border-radius: 10px;
 
         .label{
             font-size: 24px;
@@ -134,22 +143,27 @@ const DescriptionIngredients = styled.div`
             font-weight: 300;
         }
 
-        .description{
+        .stepsToProduce{
             flex-grow: 1;
             font-size: 20px;
             color: #101010;
+
+            ul{
+                margin: 0px;
+                padding-left: 20px;
+            }
         }
     }
 `
 
-const StepsToProduce = styled.div`
+const Description = styled.div`
+    flex: 1;
     display: flex;
     flex-direction: column;
     margin: 16px;
     padding: 16px;
     border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 15px #00000033;
+    background-color: ${lightGrayBackground};
 
     .label{
         color: #4a4a4a;
@@ -172,8 +186,8 @@ const StepsToProduce = styled.div`
 
 const BackButton = styled.div`
     position: fixed;
-    top: 16px;
-    left: 16px;
+    top: 24px;
+    left: 24px;
     padding: 8px;
     background-color: #00000033;
     border: 1px solid #ffffff;
@@ -244,7 +258,17 @@ const Index = () => {
                             {recipe.totalPrice} $
                         </div>
                     </MetaInfo>
-                    <DescriptionIngredients>
+                    <Description>
+                        <span className="label">
+                            Description
+                        </span>
+                        <span className="text">
+                            {recipe.shortDescription}
+                        </span>
+                    </Description>
+                </FirstContainer>
+                <SecondContainer>
+                    <StepsIngredients>
                         <div className="left">
                             <span className="label">Ingredients</span>
                             <span className="ingredients">
@@ -256,27 +280,17 @@ const Index = () => {
                             </span>
                         </div>
                         <div className="right">
-                            <span className="label">Description</span>
-                            <span className="description">
-                                {recipe.shortDescription}
+                            <span className="label">Steps to produce</span>
+                            <span className="stepsToProduce">
+                                <ul>
+                                    {recipe.stepsToProduce && recipe.stepsToProduce.split('\n').map(step => 
+                                    <li>
+                                        {step}
+                                    </li>)}
+                                </ul>
                             </span>
                         </div>
-                    </DescriptionIngredients>
-                </FirstContainer>
-                <SecondContainer>
-                    <StepsToProduce>
-                        <span className="label">
-                            Steps to produce
-                        </span>
-                        <span className="text">
-                            <ul>
-                                {recipe.stepsToProduce && recipe.stepsToProduce.split('\n').map(step => 
-                                <li>
-                                    {step}
-                                </li>)}
-                            </ul>
-                        </span>
-                    </StepsToProduce>
+                    </StepsIngredients>
                 </SecondContainer>
             </Content>
         </Container>

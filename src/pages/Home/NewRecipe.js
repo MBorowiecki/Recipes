@@ -20,21 +20,18 @@ const AddRecipeButton = styled.div`
     background-color: #e02485;
     border-radius: 50px;
     padding: 16px;
-    font-size: 24px;
     display: flex;
     flex-direction: row;
     align-items: center;
     position: fixed;
     bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 12px;
     color: #ffffff;
     box-shadow: 0px 4px 10px #00000033;
     transition-duration: 150ms;
 
     .icon{
-        font-size: 32px;
-        margin-right: 8px;
+        font-size: 48px;
     }
 
     :hover{
@@ -244,7 +241,6 @@ const NewRecipe = ({userId}) => {
                 onClick={() => setModalOpen(!modalOpen)}
             >
                 <Add className="icon" />
-                Create new recipe
             </AddRecipeButton>
             <NewRecipeBackground
                 open={modalOpen}

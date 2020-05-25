@@ -7,13 +7,12 @@ import firebaseConfig from '../../config/firebase';
 
 import styled from 'styled-components';
 
-import CategoriesHeader from './CategoriesHeader';
 import RecipesColumn from './RecipesColumn';
 import NewRecipe from './NewRecipe';
 
 const Container = styled.div`
     min-height: 100vh;
-    background-color: #d5e6e4;
+    background-color: #ffffff;
     display: flex;
     flex-direction: row;
     font-family: 'Muli', sans-serif;

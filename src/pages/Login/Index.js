@@ -9,10 +9,14 @@ import {
     KeyboardBackspace
 } from '@material-ui/icons'
 
+import {
+    lightGrayBackground
+} from '../../config/colorTheme';
+
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
-    background-color: #d5e6e4;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,9 +49,8 @@ const fadeOut = keyframes`
 `
 
 const LoginContainer = styled.div`
-    background-color: #ffffff;
+    background-color: ${lightGrayBackground};
     padding: 24px;
-    box-shadow: 0px 4px 8px #0000001f;
     border-radius: 10px;
     transform: 
         scale(${props => props.active ? "1" : "0"}) 
@@ -77,8 +80,8 @@ const LoginForm = styled.div`
         color: #000000cc;
         font-size: 20px;
         border-radius: 10px;
-        border: .5px solid #000000aa;
         padding: 8px;
+        border: none;
     }
 `
 
@@ -236,7 +239,7 @@ const Index = () => {
                         value="Create new account" 
                         marginTop="16px"
                         color="#5D5BB5"
-                        bgColor="#ffffff"
+                        bgColor="transparent"
                         onClick={() => {
                             setLoginActive(false);
                         }}
